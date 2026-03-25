@@ -7,9 +7,9 @@ on:
   workflow_dispatch:
 
 jobs:
-  fast-channels:
-    name: Fast Channels
+  run-all:
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -17,108 +17,23 @@ jobs:
       - name: Install dependencies
         run: |
           sudo apt-get update
-          sudo apt-get install -y curl jq bc
+          sudo apt-get install -y curl bc
 
-      - name: Measure fast channels
-        run: |
-          echo "Channel,Time" > rss_times.csv
-          channels=(
-            "nplusone|20"
-            "dtfbest|20"
-            "biggeekru|20"
-            "rozetked|20"
-            "disgustingmen|20"
-            "solek_yt|20"
-            "Nothing_Russia|20"
-          )
-          for ch in "${channels[@]}"; do
-            IFS="|" read -r name limit <<< "$ch"
-            start=$(date +%s.%N)
-            curl -s -m $((limit + 10)) "https://rsshub.rssforever.com/telegram/channel/$name?limit=$limit" > /dev/null || echo "${name},TIMEOUT" >> rss_times.csv
-            end=$(date +%s.%N)
-            elapsed=$(echo "$end - $start" | bc)
-            if [[ "$elapsed" != "" && "$elapsed" != "0" ]]; then
-              echo "${name},${elapsed}" >> rss_times.csv
-            fi
-          done
-
-      - name: Upload CSV
-        uses: actions/upload-artifact@v4
-        with:
-          name: rss_times
-          path: rss_times.csv
-
-  heavy-channels:
-    name: Heavy Channels
-    runs-on: ubuntu-latest
-    needs: fast-channels
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
-      - name: Install dependencies
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y curl jq bc
-
-      - name: Measure heavy channels
-        run: |
-          echo "Channel,Time" > rss_times_heavy.csv
-          channels=(
-            "novosti_efir|10"
-            "tass_agency|10"
-            "ulpressa|15"
-            "russicaRU|10"
-            "ejdailyru|15"
-            "banksta|15"
-            "rusbri|15"
-            "brieflyru|10"
-            "emet73|10"
-            "uet73|10"
-            "cooleach_timetravel|10"
-            "simbul1648|10"
-            "zombaktales|10"
-            "obschimplanom|10"
-            "firmamelodiya|10"
-            "bladerunnerblues|10"
-            "amoledwatchfaces|10"
-            "old_Moscow|10"
-            "togdazine|10"
-            "oldkazan|10"
-            "eydetat|10"
-            "artgallery|10"
-            "nazad90|10"
-            "luchofficial|10"
-          )
-          for ch in "${channels[@]}"; do
-            IFS="|" read -r name limit <<< "$ch"
-            start=$(date +%s.%N)
-            curl -s -m $((limit + 10)) "https://rsshub.rssforever.com/telegram/channel/$name?limit=$limit" > /dev/null || echo "${name},TIMEOUT" >> rss_times_heavy.csv
-            end=$(date +%s.%N)
-            elapsed=$(echo "$end - $start" | bc)
-            if [[ "$elapsed" != "" && "$elapsed" != "0" ]]; then
-              echo "${name},${elapsed}" >> rss_times_heavy.csv
-            fi
-          done
-
-      - name: Upload heavy CSV
-        uses: actions/upload-artifact@v4
-        with:
-          name: rss_times_heavy
-          path: rss_times_heavy.csv
-
-      - name: Make OPML generator executable
+      - name: Make script executable
         run: chmod +x generate_opml.sh
 
-      - name: Generate RSS OPML
+      - name: Run script
         run: ./generate_opml.sh
 
       - name: Commit OPML
         run: |
           git config user.name "github-actions"
           git config user.email "actions@github.com"
+
           git add rss.opml
-          git commit -m "Update rss.opml"
-          git push
-        env:
-          GH_PAT: ${{ secrets.GH_PAT }}
+
+          git commit -m "Update rss.opml" || echo "No changes"
+
+          git remote set-url origin https://x-access-token:${{ secrets.GH_PAT }}@github.com/${{ github.repository }}.git
+
+          git push origin HEAD:main
