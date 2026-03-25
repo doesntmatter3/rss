@@ -5,6 +5,9 @@ on:
     - cron: "*/15 * * * *"
   workflow_dispatch:
 
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true   # Все JS actions запускаются на Node.js 24
+
 jobs:
   update:
     runs-on: ubuntu-latest
@@ -12,7 +15,7 @@ jobs:
       - name: Создать папку rss
         run: mkdir -p rss
 
-      # Новости (limit=15)
+      # --- Новости (limit=15) ---
       - name: Прямой Эфир
         run: curl -L -o rss/a91k2.xml -w "Прямой Эфир,%{time_total}\n" "https://rsshub.rssforever.com/telegram/channel/novosti_efir?limit=15" >> rss/times_temp.txt
       - name: ТАСС
@@ -34,7 +37,7 @@ jobs:
       - name: Трамвай Ульяновск
         run: curl -L -o rss/j60v1.xml -w "Трамвай Ульяновск,%{time_total}\n" "https://rsshub.rssforever.com/telegram/channel/uet73?limit=15" >> rss/times_temp.txt
 
-      # Тех / медиа (limit=20)
+      # --- Тех / медиа (limit=20) ---
       - name: N + 1
         run: curl -L -o rss/k71w5.xml -w "N + 1,%{time_total}\n" "https://rsshub.rssforever.com/telegram/channel/nplusone?limit=20" >> rss/times_temp.txt
       - name: DTF
@@ -50,7 +53,7 @@ jobs:
       - name: Nothing (R)ussia
         run: curl -L -o rss/q47c8.xml -w "Nothing (R)ussia,%{time_total}\n" "https://rsshub.rssforever.com/telegram/channel/Nothing_Russia?limit=20" >> rss/times_temp.txt
 
-      # Остальное (limit=30)
+      # --- Остальное (limit=30) ---
       - name: Канал Кулича
         run: curl -L -o rss/r58d2.xml -w "Канал Кулича,%{time_total}\n" "https://rsshub.rssforever.com/telegram/channel/cooleach_timetravel?limit=30" >> rss/times_temp.txt
       - name: 48 Колебяток
@@ -80,16 +83,23 @@ jobs:
       - name: Луч
         run: curl -L -o rss/e91r6.xml -w "Луч,%{time_total}\n" "https://rsshub.rssforever.com/telegram/channel/luchofficial?limit=30" >> rss/times_temp.txt
 
-      # Собрать финальный CSV
+      # --- Собрать финальный CSV ---
       - name: Собрать CSV
         run: |
           echo "канал,время_сек" > rss/rss_times.csv
           cat rss/times_temp.txt >> rss/rss_times.csv
+
+          # Выделить “тяжёлые” каналы >10 секунд
+          echo "канал,время_сек" > rss/rss_times_heavy.csv
+          awk -F',' '$2 > 10 {print $0}' rss/times_temp.txt >> rss/rss_times_heavy.csv
+
           rm rss/times_temp.txt
 
-      # Загрузить артефакт
+      # --- Загрузить артефакты ---
       - name: Сохранить CSV как артефакт
         uses: actions/upload-artifact@v4
         with:
           name: rss-times
-          path: rss/rss_times.csv
+          path: |
+            rss/rss_times.csv
+            rss/rss_times_heavy.csv
