@@ -1,4 +1,4 @@
-name: Update RSS
+name: Update RSS with timing
 
 on:
   schedule:
@@ -14,68 +14,68 @@ jobs:
 
       # Новости (limit=15)
       - name: Прямой Эфир
-        run: curl -L --max-time 30 "https://rsshub.rssforever.com/telegram/channel/novosti_efir?limit=15" -o rss/a91k2.xml
+        run: curl -L -o rss/a91k2.xml -w "Прямой Эфир загружен за %{time_total} секунд\n" "https://rsshub.rssforever.com/telegram/channel/novosti_efir?limit=15"
       - name: ТАСС
-        run: curl -L --max-time 30 "https://rsshub.rssforever.com/telegram/channel/tass_agency?limit=15" -o rss/b72m4.xml
+        run: curl -L -o rss/b72m4.xml -w "ТАСС загружен за %{time_total} секунд\n" "https://rsshub.rssforever.com/telegram/channel/tass_agency?limit=15"
       - name: УЛПРЕССА
-        run: curl -L --max-time 30 "https://rsshub.rssforever.com/telegram/channel/ulpressa?limit=15" -o rss/c83n1.xml
+        run: curl -L -o rss/c83n1.xml -w "УЛПРЕССА загружена за %{time_total} секунд\n" "https://rsshub.rssforever.com/telegram/channel/ulpressa?limit=15"
       - name: НЕЗЫГАРЬ
-        run: curl -L --max-time 30 "https://rsshub.rssforever.com/telegram/channel/russicaRU?limit=15" -o rss/d94p7.xml
+        run: curl -L -o rss/d94p7.xml -w "НЕЗЫГАРЬ загружен за %{time_total} секунд\n" "https://rsshub.rssforever.com/telegram/channel/russicaRU?limit=15"
       - name: ЕЖ
-        run: curl -L --max-time 30 "https://rsshub.rssforever.com/telegram/channel/ejdailyru?limit=15" -o rss/e15q2.xml
+        run: curl -L -o rss/e15q2.xml -w "ЕЖ загружен за %{time_total} секунд\n" "https://rsshub.rssforever.com/telegram/channel/ejdailyru?limit=15"
       - name: Банкста
-        run: curl -L --max-time 30 "https://rsshub.rssforever.com/telegram/channel/banksta?limit=15" -o rss/f26r8.xml
+        run: curl -L -o rss/f26r8.xml -w "Банкста загружен за %{time_total} секунд\n" "https://rsshub.rssforever.com/telegram/channel/banksta?limit=15"
       - name: BRIEF МИР
-        run: curl -L --max-time 30 "https://rsshub.rssforever.com/telegram/channel/rusbri?limit=15" -o rss/g37s3.xml
+        run: curl -L -o rss/g37s3.xml -w "BRIEF МИР загружен за %{time_total} секунд\n" "https://rsshub.rssforever.com/telegram/channel/rusbri?limit=15"
       - name: BRIEFLY RU
-        run: curl -L --max-time 30 "https://rsshub.rssforever.com/telegram/channel/brieflyru?limit=15" -o rss/h48t9.xml
+        run: curl -L -o rss/h48t9.xml -w "BRIEFLY RU загружен за %{time_total} секунд\n" "https://rsshub.rssforever.com/telegram/channel/brieflyru?limit=15"
       - name: Өмет
-        run: curl -L --max-time 30 "https://rsshub.rssforever.com/telegram/channel/emet73?limit=15" -o rss/i59u4.xml
+        run: curl -L -o rss/i59u4.xml -w "Өмет загружен за %{time_total} секунд\n" "https://rsshub.rssforever.com/telegram/channel/emet73?limit=15"
       - name: Трамвай Ульяновск
-        run: curl -L --max-time 30 "https://rsshub.rssforever.com/telegram/channel/uet73?limit=15" -o rss/j60v1.xml
+        run: curl -L -o rss/j60v1.xml -w "Трамвай Ульяновск загружен за %{time_total} секунд\n" "https://rsshub.rssforever.com/telegram/channel/uet73?limit=15"
 
       # Тех / медиа (limit=20)
       - name: N + 1
-        run: curl -L --max-time 30 "https://rsshub.rssforever.com/telegram/channel/nplusone?limit=20" -o rss/k71w5.xml
+        run: curl -L -o rss/k71w5.xml -w "N + 1 загружен за %{time_total} секунд\n" "https://rsshub.rssforever.com/telegram/channel/nplusone?limit=20"
       - name: DTF
-        run: curl -L --max-time 30 "https://rsshub.rssforever.com/telegram/channel/dtfbest?limit=20" -o rss/l82x2.xml
+        run: curl -L -o rss/l82x2.xml -w "DTF загружен за %{time_total} секунд\n" "https://rsshub.rssforever.com/telegram/channel/dtfbest?limit=20"
       - name: Big Geek
-        run: curl -L --max-time 30 "https://rsshub.rssforever.com/telegram/channel/biggeekru?limit=20" -o rss/m93y6.xml
+        run: curl -L -o rss/m93y6.xml -w "Big Geek загружен за %{time_total} секунд\n" "https://rsshub.rssforever.com/telegram/channel/biggeekru?limit=20"
       - name: Rozetked
-        run: curl -L --max-time 30 "https://rsshub.rssforever.com/telegram/channel/rozetked?limit=20" -o rss/n14z3.xml
+        run: curl -L -o rss/n14z3.xml -w "Rozetked загружен за %{time_total} секунд\n" "https://rsshub.rssforever.com/telegram/channel/rozetked?limit=20"
       - name: Disgusting Men
-        run: curl -L --max-time 30 "https://rsshub.rssforever.com/telegram/channel/disgustingmen?limit=20" -o rss/o25a7.xml
+        run: curl -L -o rss/o25a7.xml -w "Disgusting Men загружен за %{time_total} секунд\n" "https://rsshub.rssforever.com/telegram/channel/disgustingmen?limit=20"
       - name: Solek.exe
-        run: curl -L --max-time 30 "https://rsshub.rssforever.com/telegram/channel/solek_yt?limit=20" -o rss/p36b1.xml
+        run: curl -L -o rss/p36b1.xml -w "Solek.exe загружен за %{time_total} секунд\n" "https://rsshub.rssforever.com/telegram/channel/solek_yt?limit=20"
       - name: Nothing (R)ussia
-        run: curl -L --max-time 30 "https://rsshub.rssforever.com/telegram/channel/Nothing_Russia?limit=20" -o rss/q47c8.xml
+        run: curl -L -o rss/q47c8.xml -w "Nothing (R)ussia загружен за %{time_total} секунд\n" "https://rsshub.rssforever.com/telegram/channel/Nothing_Russia?limit=20"
 
       # Остальное (limit=30)
       - name: Канал Кулича
-        run: curl -L --max-time 30 "https://rsshub.rssforever.com/telegram/channel/cooleach_timetravel?limit=30" -o rss/r58d2.xml
+        run: curl -L -o rss/r58d2.xml -w "Канал Кулича загружен за %{time_total} секунд\n" "https://rsshub.rssforever.com/telegram/channel/cooleach_timetravel?limit=30"
       - name: 48 Колебяток
-        run: curl -L --max-time 30 "https://rsshub.rssforever.com/telegram/channel/simbul1648?limit=30" -o rss/s69e9.xml
+        run: curl -L -o rss/s69e9.xml -w "48 Колебяток загружен за %{time_total} секунд\n" "https://rsshub.rssforever.com/telegram/channel/simbul1648?limit=30"
       - name: Сказки Дядюшки Зомбака
-        run: curl -L --max-time 30 "https://rsshub.rssforever.com/telegram/channel/zombaktales?limit=30" -o rss/t70f4.xml
+        run: curl -L -o rss/t70f4.xml -w "Сказки Дядюшки Зомбака загружен за %{time_total} секунд\n" "https://rsshub.rssforever.com/telegram/channel/zombaktales?limit=30"
       - name: Общим планом
-        run: curl -L --max-time 30 "https://rsshub.rssforever.com/telegram/channel/obschimplanom?limit=30" -o rss/u81g1.xml
+        run: curl -L -o rss/u81g1.xml -w "Общим планом загружен за %{time_total} секунд\n" "https://rsshub.rssforever.com/telegram/channel/obschimplanom?limit=30"
       - name: МЕЛОДИЯ
-        run: curl -L --max-time 30 "https://rsshub.rssforever.com/telegram/channel/firmamelodiya?limit=30" -o rss/v92h6.xml
+        run: curl -L -o rss/v92h6.xml -w "МЕЛОДИЯ загружена за %{time_total} секунд\n" "https://rsshub.rssforever.com/telegram/channel/firmamelodiya?limit=30"
       - name: Bladerunner Blues
-        run: curl -L --max-time 30 "https://rsshub.rssforever.com/telegram/channel/bladerunnerblues?limit=30" -o rss/w13i3.xml
+        run: curl -L -o rss/w13i3.xml -w "Bladerunner Blues загружен за %{time_total} секунд\n" "https://rsshub.rssforever.com/telegram/channel/bladerunnerblues?limit=30"
       - name: amoledwatchfaces
-        run: curl -L --max-time 30 "https://rsshub.rssforever.com/telegram/channel/amoledwatchfaces?limit=30" -o rss/x24j8.xml
+        run: curl -L -o rss/x24j8.xml -w "amoledwatchfaces загружен за %{time_total} секунд\n" "https://rsshub.rssforever.com/telegram/channel/amoledwatchfaces?limit=30"
       - name: Старая Москва
-        run: curl -L --max-time 30 "https://rsshub.rssforever.com/telegram/channel/old_Moscow?limit=30" -o rss/y35k2.xml
+        run: curl -L -o rss/y35k2.xml -w "Старая Москва загружена за %{time_total} секунд\n" "https://rsshub.rssforever.com/telegram/channel/old_Moscow?limit=30"
       - name: Тогда
-        run: curl -L --max-time 30 "https://rsshub.rssforever.com/telegram/channel/togdazine?limit=30" -o rss/z46l7.xml
+        run: curl -L -o rss/z46l7.xml -w "Тогда загружен за %{time_total} секунд\n" "https://rsshub.rssforever.com/telegram/channel/togdazine?limit=30"
       - name: Старая Казань
-        run: curl -L --max-time 30 "https://rsshub.rssforever.com/telegram/channel/oldkazan?limit=30" -o rss/a57m3.xml
+        run: curl -L -o rss/a57m3.xml -w "Старая Казань загружена за %{time_total} секунд\n" "https://rsshub.rssforever.com/telegram/channel/oldkazan?limit=30"
       - name: Әйдә! Online
-        run: curl -L --max-time 30 "https://rsshub.rssforever.com/telegram/channel/eydetat?limit=30" -o rss/b68n9.xml
+        run: curl -L -o rss/b68n9.xml -w "Әйдә! Online загружен за %{time_total} секунд\n" "https://rsshub.rssforever.com/telegram/channel/eydetat?limit=30"
       - name: Тут картины показываем
-        run: curl -L --max-time 30 "https://rsshub.rssforever.com/telegram/channel/artgallery?limit=30" -o rss/c79p4.xml
+        run: curl -L -o rss/c79p4.xml -w "Тут картины показываем загружено за %{time_total} секунд\n" "https://rsshub.rssforever.com/telegram/channel/artgallery?limit=30"
       - name: 20 лет назад
-        run: curl -L --max-time 30 "https://rsshub.rssforever.com/telegram/channel/nazad90?limit=30" -o rss/d80q1.xml
+        run: curl -L -o rss/d80q1.xml -w "20 лет назад загружен за %{time_total} секунд\n" "https://rsshub.rssforever.com/telegram/channel/nazad90?limit=30"
       - name: Луч
-        run: curl -L --max-time 30 "https://rsshub.rssforever.com/telegram/channel/luchofficial?limit=30" -o rss/e91r6.xml
+        run: curl -L -o rss/e91r6.xml -w "Луч загружен за %{time_total} секунд\n" "https://rsshub.rssforever.com/telegram/channel/luchofficial?limit=30"
