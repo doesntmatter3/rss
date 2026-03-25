@@ -20,12 +20,12 @@ jobs:
       - name: Install dependencies
         run: |
           sudo apt-get update
-          sudo apt-get install -y curl jq
+          sudo apt-get install -y curl jq bc
 
       - name: Measure fast channels
         run: |
           echo "Channel,Time" > rss_times.csv
-          # Быстрые каналы: limit остаётся прежним
+          # Реально быстрые каналы
           channels=(
             "nplusone|20"
             "dtfbest|20"
@@ -34,28 +34,17 @@ jobs:
             "disgustingmen|20"
             "solek_yt|20"
             "Nothing_Russia|20"
-            "cooleach_timetravel|30"
-            "simbul1648|30"
-            "zombaktales|30"
-            "obschimplanom|30"
-            "firmamelodiya|30"
-            "bladerunnerblues|30"
-            "amoledwatchfaces|30"
-            "old_Moscow|30"
-            "togdazine|30"
-            "oldkazan|30"
-            "eydetat|30"
-            "artgallery|30"
-            "nazad90|30"
-            "luchofficial|30"
           )
           for ch in "${channels[@]}"; do
             IFS="|" read -r name limit <<< "$ch"
             start=$(date +%s.%N)
-            curl -s -m $((limit + 10)) "https://rsshub.rssforever.com/telegram/channel/$name?limit=$limit" > /dev/null
+            curl -s -m $((limit + 10)) "https://rsshub.rssforever.com/telegram/channel/$name?limit=$limit" > /dev/null || echo "${name},TIMEOUT" >> rss_times.csv
             end=$(date +%s.%N)
             elapsed=$(echo "$end - $start" | bc)
-            echo "${name},${elapsed}" >> rss_times.csv
+            # Если timeout, то уже записано
+            if [[ "$elapsed" != "" && "$elapsed" != "0" ]]; then
+              echo "${name},${elapsed}" >> rss_times.csv
+            fi
           done
 
       - name: Upload CSV
@@ -75,12 +64,12 @@ jobs:
       - name: Install dependencies
         run: |
           sudo apt-get update
-          sudo apt-get install -y curl jq
+          sudo apt-get install -y curl jq bc
 
       - name: Measure heavy channels
         run: |
           echo "Channel,Time" > rss_times_heavy.csv
-          # Тяжёлые каналы: уменьшенный limit=10
+          # Тяжёлые каналы с уменьшенным limit
           channels=(
             "novosti_efir|10"
             "tass_agency|10"
@@ -92,14 +81,30 @@ jobs:
             "brieflyru|10"
             "emet73|10"
             "uet73|10"
+            "cooleach_timetravel|10"
+            "simbul1648|10"
+            "zombaktales|10"
+            "obschimplanom|10"
+            "firmamelodiya|10"
+            "bladerunnerblues|10"
+            "amoledwatchfaces|10"
+            "old_Moscow|10"
+            "togdazine|10"
+            "oldkazan|10"
+            "eydetat|10"
+            "artgallery|10"
+            "nazad90|10"
+            "luchofficial|10"
           )
           for ch in "${channels[@]}"; do
             IFS="|" read -r name limit <<< "$ch"
             start=$(date +%s.%N)
-            curl -s -m $((limit + 10)) "https://rsshub.rssforever.com/telegram/channel/$name?limit=$limit" > /dev/null
+            curl -s -m $((limit + 10)) "https://rsshub.rssforever.com/telegram/channel/$name?limit=$limit" > /dev/null || echo "${name},TIMEOUT" >> rss_times_heavy.csv
             end=$(date +%s.%N)
             elapsed=$(echo "$end - $start" | bc)
-            echo "${name},${elapsed}" >> rss_times_heavy.csv
+            if [[ "$elapsed" != "" && "$elapsed" != "0" ]]; then
+              echo "${name},${elapsed}" >> rss_times_heavy.csv
+            fi
           done
 
       - name: Upload heavy CSV
