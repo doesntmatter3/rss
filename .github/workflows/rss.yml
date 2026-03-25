@@ -2,7 +2,7 @@ name: Update RSS
 
 on:
   schedule:
-    - cron: "*/15 * * * *"  # каждые 15 минут
+    - cron: "*/15 * * * *"
   workflow_dispatch:
 
 jobs:
@@ -14,68 +14,68 @@ jobs:
 
       # Новости (limit=15)
       - name: Прямой Эфир
-        run: curl -L "https://rsshub.rssforever.com/telegram/channel/novosti_efir?limit=15" -o rss/a91k2.xml
+        run: curl -L --max-time 30 "https://rsshub.rssforever.com/telegram/channel/novosti_efir?limit=15" -o rss/a91k2.xml
       - name: ТАСС
-        run: curl -L "https://rsshub.rssforever.com/telegram/channel/tass_agency?limit=15" -o rss/b72m4.xml
+        run: curl -L --max-time 30 "https://rsshub.rssforever.com/telegram/channel/tass_agency?limit=15" -o rss/b72m4.xml
       - name: УЛПРЕССА
-        run: curl -L "https://rsshub.rssforever.com/telegram/channel/ulpressa?limit=15" -o rss/c83n1.xml
+        run: curl -L --max-time 30 "https://rsshub.rssforever.com/telegram/channel/ulpressa?limit=15" -o rss/c83n1.xml
       - name: НЕЗЫГАРЬ
-        run: curl -L "https://rsshub.rssforever.com/telegram/channel/russicaRU?limit=15" -o rss/d94p7.xml
+        run: curl -L --max-time 30 "https://rsshub.rssforever.com/telegram/channel/russicaRU?limit=15" -o rss/d94p7.xml
       - name: ЕЖ
-        run: curl -L "https://rsshub.rssforever.com/telegram/channel/ejdailyru?limit=15" -o rss/e15q2.xml
+        run: curl -L --max-time 30 "https://rsshub.rssforever.com/telegram/channel/ejdailyru?limit=15" -o rss/e15q2.xml
       - name: Банкста
-        run: curl -L "https://rsshub.rssforever.com/telegram/channel/banksta?limit=15" -o rss/f26r8.xml
+        run: curl -L --max-time 30 "https://rsshub.rssforever.com/telegram/channel/banksta?limit=15" -o rss/f26r8.xml
       - name: BRIEF МИР
-        run: curl -L "https://rsshub.rssforever.com/telegram/channel/rusbri?limit=15" -o rss/g37s3.xml
+        run: curl -L --max-time 30 "https://rsshub.rssforever.com/telegram/channel/rusbri?limit=15" -o rss/g37s3.xml
       - name: BRIEFLY RU
-        run: curl -L "https://rsshub.rssforever.com/telegram/channel/brieflyru?limit=15" -o rss/h48t9.xml
+        run: curl -L --max-time 30 "https://rsshub.rssforever.com/telegram/channel/brieflyru?limit=15" -o rss/h48t9.xml
       - name: Өмет
-        run: curl -L "https://rsshub.rssforever.com/telegram/channel/emet73?limit=15" -o rss/i59u4.xml
+        run: curl -L --max-time 30 "https://rsshub.rssforever.com/telegram/channel/emet73?limit=15" -o rss/i59u4.xml
       - name: Трамвай Ульяновск
-        run: curl -L "https://rsshub.rssforever.com/telegram/channel/uet73?limit=15" -o rss/j60v1.xml
+        run: curl -L --max-time 30 "https://rsshub.rssforever.com/telegram/channel/uet73?limit=15" -o rss/j60v1.xml
 
       # Тех / медиа (limit=20)
       - name: N + 1
-        run: curl -L "https://rsshub.rssforever.com/telegram/channel/nplusone?limit=20" -o rss/k71w5.xml
+        run: curl -L --max-time 30 "https://rsshub.rssforever.com/telegram/channel/nplusone?limit=20" -o rss/k71w5.xml
       - name: DTF
-        run: curl -L "https://rsshub.rssforever.com/telegram/channel/dtfbest?limit=20" -o rss/l82x2.xml
+        run: curl -L --max-time 30 "https://rsshub.rssforever.com/telegram/channel/dtfbest?limit=20" -o rss/l82x2.xml
       - name: Big Geek
-        run: curl -L "https://rsshub.rssforever.com/telegram/channel/biggeekru?limit=20" -o rss/m93y6.xml
+        run: curl -L --max-time 30 "https://rsshub.rssforever.com/telegram/channel/biggeekru?limit=20" -o rss/m93y6.xml
       - name: Rozetked
-        run: curl -L "https://rsshub.rssforever.com/telegram/channel/rozetked?limit=20" -o rss/n14z3.xml
+        run: curl -L --max-time 30 "https://rsshub.rssforever.com/telegram/channel/rozetked?limit=20" -o rss/n14z3.xml
       - name: Disgusting Men
-        run: curl -L "https://rsshub.rssforever.com/telegram/channel/disgustingmen?limit=20" -o rss/o25a7.xml
+        run: curl -L --max-time 30 "https://rsshub.rssforever.com/telegram/channel/disgustingmen?limit=20" -o rss/o25a7.xml
       - name: Solek.exe
-        run: curl -L "https://rsshub.rssforever.com/telegram/channel/solek_yt?limit=20" -o rss/p36b1.xml
+        run: curl -L --max-time 30 "https://rsshub.rssforever.com/telegram/channel/solek_yt?limit=20" -o rss/p36b1.xml
       - name: Nothing (R)ussia
-        run: curl -L "https://rsshub.rssforever.com/telegram/channel/Nothing_Russia?limit=20" -o rss/q47c8.xml
+        run: curl -L --max-time 30 "https://rsshub.rssforever.com/telegram/channel/Nothing_Russia?limit=20" -o rss/q47c8.xml
 
       # Остальное (limit=30)
       - name: Канал Кулича
-        run: curl -L "https://rsshub.rssforever.com/telegram/channel/cooleach_timetravel?limit=30" -o rss/r58d2.xml
+        run: curl -L --max-time 30 "https://rsshub.rssforever.com/telegram/channel/cooleach_timetravel?limit=30" -o rss/r58d2.xml
       - name: 48 Колебяток
-        run: curl -L "https://rsshub.rssforever.com/telegram/channel/simbul1648?limit=30" -o rss/s69e9.xml
+        run: curl -L --max-time 30 "https://rsshub.rssforever.com/telegram/channel/simbul1648?limit=30" -o rss/s69e9.xml
       - name: Сказки Дядюшки Зомбака
-        run: curl -L "https://rsshub.rssforever.com/telegram/channel/zombaktales?limit=30" -o rss/t70f4.xml
+        run: curl -L --max-time 30 "https://rsshub.rssforever.com/telegram/channel/zombaktales?limit=30" -o rss/t70f4.xml
       - name: Общим планом
-        run: curl -L "https://rsshub.rssforever.com/telegram/channel/obschimplanom?limit=30" -o rss/u81g1.xml
+        run: curl -L --max-time 30 "https://rsshub.rssforever.com/telegram/channel/obschimplanom?limit=30" -o rss/u81g1.xml
       - name: МЕЛОДИЯ
-        run: curl -L "https://rsshub.rssforever.com/telegram/channel/firmamelodiya?limit=30" -o rss/v92h6.xml
+        run: curl -L --max-time 30 "https://rsshub.rssforever.com/telegram/channel/firmamelodiya?limit=30" -o rss/v92h6.xml
       - name: Bladerunner Blues
-        run: curl -L "https://rsshub.rssforever.com/telegram/channel/bladerunnerblues?limit=30" -o rss/w13i3.xml
+        run: curl -L --max-time 30 "https://rsshub.rssforever.com/telegram/channel/bladerunnerblues?limit=30" -o rss/w13i3.xml
       - name: amoledwatchfaces
-        run: curl -L "https://rsshub.rssforever.com/telegram/channel/amoledwatchfaces?limit=30" -o rss/x24j8.xml
+        run: curl -L --max-time 30 "https://rsshub.rssforever.com/telegram/channel/amoledwatchfaces?limit=30" -o rss/x24j8.xml
       - name: Старая Москва
-        run: curl -L "https://rsshub.rssforever.com/telegram/channel/old_Moscow?limit=30" -o rss/y35k2.xml
+        run: curl -L --max-time 30 "https://rsshub.rssforever.com/telegram/channel/old_Moscow?limit=30" -o rss/y35k2.xml
       - name: Тогда
-        run: curl -L "https://rsshub.rssforever.com/telegram/channel/togdazine?limit=30" -o rss/z46l7.xml
+        run: curl -L --max-time 30 "https://rsshub.rssforever.com/telegram/channel/togdazine?limit=30" -o rss/z46l7.xml
       - name: Старая Казань
-        run: curl -L "https://rsshub.rssforever.com/telegram/channel/oldkazan?limit=30" -o rss/a57m3.xml
+        run: curl -L --max-time 30 "https://rsshub.rssforever.com/telegram/channel/oldkazan?limit=30" -o rss/a57m3.xml
       - name: Әйдә! Online
-        run: curl -L "https://rsshub.rssforever.com/telegram/channel/eydetat?limit=30" -o rss/b68n9.xml
+        run: curl -L --max-time 30 "https://rsshub.rssforever.com/telegram/channel/eydetat?limit=30" -o rss/b68n9.xml
       - name: Тут картины показываем
-        run: curl -L "https://rsshub.rssforever.com/telegram/channel/artgallery?limit=30" -o rss/c79p4.xml
+        run: curl -L --max-time 30 "https://rsshub.rssforever.com/telegram/channel/artgallery?limit=30" -o rss/c79p4.xml
       - name: 20 лет назад
-        run: curl -L "https://rsshub.rssforever.com/telegram/channel/nazad90?limit=30" -o rss/d80q1.xml
+        run: curl -L --max-time 30 "https://rsshub.rssforever.com/telegram/channel/nazad90?limit=30" -o rss/d80q1.xml
       - name: Луч
-        run: curl -L "https://rsshub.rssforever.com/telegram/channel/luchofficial?limit=30" -o rss/e91r6.xml
+        run: curl -L --max-time 30 "https://rsshub.rssforever.com/telegram/channel/luchofficial?limit=30" -o rss/e91r6.xml
