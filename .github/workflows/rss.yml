@@ -89,7 +89,7 @@ jobs:
 
       # Загрузить артефакт
       - name: Сохранить CSV как артефакт
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: rss-times
           path: rss/rss_times.csv
