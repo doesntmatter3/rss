@@ -6,11 +6,9 @@ on:
       - 'rss.yml'
   workflow_dispatch:
 
-env:
-  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
-
 jobs:
-  generate-rss:
+  generate-csv-and-opml:
+    name: Generate CSV and OPML
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
@@ -19,17 +17,20 @@ jobs:
       - name: Install dependencies
         run: |
           sudo apt-get update
-          sudo apt-get install -y curl jq bc
+          sudo apt-get install -y curl bc
 
-      - name: Run OPML generator
-        run: |
-          chmod +x generate_opml.sh
-          ./generate_opml.sh
+      - name: Make generate_opml.sh executable
+        run: chmod +x ./generate_opml.sh
+
+      - name: Run CSV measurement and OPML generation
+        run: ./generate_opml.sh
 
       - name: Commit and push OPML
+        env:
+          GH_PAT: ${{ secrets.GH_PAT }}
         run: |
           git config user.name "github-actions"
           git config user.email "actions@github.com"
           git add rss.opml
           git commit -m "Update rss.opml" || echo "No changes to commit"
-          git push https://x-access-token:${{ secrets.GH_PAT }}@github.com/doesntmatter3/rss.git
+          git push https://x-access-token:${GH_PAT}@github.com/${GITHUB_REPOSITORY}.git HEAD:main
