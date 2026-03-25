@@ -1,105 +1,52 @@
-name: Update RSS with timing and CSV
+<?xml version='1.0' encoding='UTF-8' ?>
+<opml version="2.0">
+  <head>
+    <title>Telegram RSS - Optimized Preset</title>
+  </head>
+  <body>
 
-on:
-  schedule:
-    - cron: "*/15 * * * *"
-  workflow_dispatch:
+    <!-- Новости -->
+    <outline text="Новости" title="Новости">
+      <outline text="Прямой Эфир" xmlUrl="https://rsshub.rssforever.com/telegram/channel/novosti_efir?limit=10"/>
+      <outline text="ТАСС" xmlUrl="https://rsshub.rssforever.com/telegram/channel/tass_agency?limit=10"/>
+      <outline text="УЛПРЕССА" xmlUrl="https://rsshub.rssforever.com/telegram/channel/ulpressa?limit=15"/>
+      <outline text="НЕЗЫГАРЬ" xmlUrl="https://rsshub.rssforever.com/telegram/channel/russicaRU?limit=10"/>
+      <outline text="ЕЖ" xmlUrl="https://rsshub.rssforever.com/telegram/channel/ejdailyru?limit=15"/>
+      <outline text="Банкста" xmlUrl="https://rsshub.rssforever.com/telegram/channel/banksta?limit=15"/>
+      <outline text="BRIEF МИР" xmlUrl="https://rsshub.rssforever.com/telegram/channel/rusbri?limit=15"/>
+      <outline text="BRIEFLY RU" xmlUrl="https://rsshub.rssforever.com/telegram/channel/brieflyru?limit=10"/>
+      <outline text="Өмет" xmlUrl="https://rsshub.rssforever.com/telegram/channel/emet73?limit=10"/>
+      <outline text="Трамвай Ульяновск" xmlUrl="https://rsshub.rssforever.com/telegram/channel/uet73?limit=10"/>
+    </outline>
 
-env:
-  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true   # Все JS actions запускаются на Node.js 24
+    <!-- Тех / медиа -->
+    <outline text="Тех и медиа" title="Тех и медиа">
+      <outline text="N + 1" xmlUrl="https://rsshub.rssforever.com/telegram/channel/nplusone?limit=20"/>
+      <outline text="DTF" xmlUrl="https://rsshub.rssforever.com/telegram/channel/dtfbest?limit=20"/>
+      <outline text="Big Geek" xmlUrl="https://rsshub.rssforever.com/telegram/channel/biggeekru?limit=20"/>
+      <outline text="Rozetked" xmlUrl="https://rsshub.rssforever.com/telegram/channel/rozetked?limit=20"/>
+      <outline text="Disgusting Men" xmlUrl="https://rsshub.rssforever.com/telegram/channel/disgustingmen?limit=20"/>
+      <outline text="Solek.exe" xmlUrl="https://rsshub.rssforever.com/telegram/channel/solek_yt?limit=20"/>
+      <outline text="Nothing (R)ussia" xmlUrl="https://rsshub.rssforever.com/telegram/channel/Nothing_Russia?limit=20"/>
+    </outline>
 
-jobs:
-  update:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Создать папку rss
-        run: mkdir -p rss
+    <!-- Остальное -->
+    <outline text="Остальное" title="Остальное">
+      <outline text="Канал Кулича" xmlUrl="https://rsshub.rssforever.com/telegram/channel/cooleach_timetravel?limit=30"/>
+      <outline text="48 Колебяток" xmlUrl="https://rsshub.rssforever.com/telegram/channel/simbul1648?limit=30"/>
+      <outline text="Сказки Дядюшки Зомбака" xmlUrl="https://rsshub.rssforever.com/telegram/channel/zombaktales?limit=30"/>
+      <outline text="Общим планом" xmlUrl="https://rsshub.rssforever.com/telegram/channel/obschimplanom?limit=30"/>
+      <outline text="МЕЛОДИЯ" xmlUrl="https://rsshub.rssforever.com/telegram/channel/firmamelodiya?limit=30"/>
+      <outline text="Bladerunner Blues" xmlUrl="https://rsshub.rssforever.com/telegram/channel/bladerunnerblues?limit=30"/>
+      <outline text="amoledwatchfaces" xmlUrl="https://rsshub.rssforever.com/telegram/channel/amoledwatchfaces?limit=30"/>
+      <outline text="Старая Москва" xmlUrl="https://rsshub.rssforever.com/telegram/channel/old_Moscow?limit=30"/>
+      <outline text="Тогда" xmlUrl="https://rsshub.rssforever.com/telegram/channel/togdazine?limit=30"/>
+      <outline text="Старая Казань" xmlUrl="https://rsshub.rssforever.com/telegram/channel/oldkazan?limit=30"/>
+      <outline text="Әйдә! Online" xmlUrl="https://rsshub.rssforever.com/telegram/channel/eydetat?limit=30"/>
+      <outline text="Тут картины показываем" xmlUrl="https://rsshub.rssforever.com/telegram/channel/artgallery?limit=30"/>
+      <outline text="20 лет назад" xmlUrl="https://rsshub.rssforever.com/telegram/channel/nazad90?limit=30"/>
+      <outline text="Луч" xmlUrl="https://rsshub.rssforever.com/telegram/channel/luchofficial?limit=30"/>
+    </outline>
 
-      # --- Новости (limit=15) ---
-      - name: Прямой Эфир
-        run: curl -L -o rss/a91k2.xml -w "Прямой Эфир,%{time_total}\n" "https://rsshub.rssforever.com/telegram/channel/novosti_efir?limit=15" >> rss/times_temp.txt
-      - name: ТАСС
-        run: curl -L -o rss/b72m4.xml -w "ТАСС,%{time_total}\n" "https://rsshub.rssforever.com/telegram/channel/tass_agency?limit=15" >> rss/times_temp.txt
-      - name: УЛПРЕССА
-        run: curl -L -o rss/c83n1.xml -w "УЛПРЕССА,%{time_total}\n" "https://rsshub.rssforever.com/telegram/channel/ulpressa?limit=15" >> rss/times_temp.txt
-      - name: НЕЗЫГАРЬ
-        run: curl -L -o rss/d94p7.xml -w "НЕЗЫГАРЬ,%{time_total}\n" "https://rsshub.rssforever.com/telegram/channel/russicaRU?limit=15" >> rss/times_temp.txt
-      - name: ЕЖ
-        run: curl -L -o rss/e15q2.xml -w "ЕЖ,%{time_total}\n" "https://rsshub.rssforever.com/telegram/channel/ejdailyru?limit=15" >> rss/times_temp.txt
-      - name: Банкста
-        run: curl -L -o rss/f26r8.xml -w "Банкста,%{time_total}\n" "https://rsshub.rssforever.com/telegram/channel/banksta?limit=15" >> rss/times_temp.txt
-      - name: BRIEF МИР
-        run: curl -L -o rss/g37s3.xml -w "BRIEF МИР,%{time_total}\n" "https://rsshub.rssforever.com/telegram/channel/rusbri?limit=15" >> rss/times_temp.txt
-      - name: BRIEFLY RU
-        run: curl -L -o rss/h48t9.xml -w "BRIEFLY RU,%{time_total}\n" "https://rsshub.rssforever.com/telegram/channel/brieflyru?limit=15" >> rss/times_temp.txt
-      - name: Өмет
-        run: curl -L -o rss/i59u4.xml -w "Өмет,%{time_total}\n" "https://rsshub.rssforever.com/telegram/channel/emet73?limit=15" >> rss/times_temp.txt
-      - name: Трамвай Ульяновск
-        run: curl -L -o rss/j60v1.xml -w "Трамвай Ульяновск,%{time_total}\n" "https://rsshub.rssforever.com/telegram/channel/uet73?limit=15" >> rss/times_temp.txt
-
-      # --- Тех / медиа (limit=20) ---
-      - name: N + 1
-        run: curl -L -o rss/k71w5.xml -w "N + 1,%{time_total}\n" "https://rsshub.rssforever.com/telegram/channel/nplusone?limit=20" >> rss/times_temp.txt
-      - name: DTF
-        run: curl -L -o rss/l82x2.xml -w "DTF,%{time_total}\n" "https://rsshub.rssforever.com/telegram/channel/dtfbest?limit=20" >> rss/times_temp.txt
-      - name: Big Geek
-        run: curl -L -o rss/m93y6.xml -w "Big Geek,%{time_total}\n" "https://rsshub.rssforever.com/telegram/channel/biggeekru?limit=20" >> rss/times_temp.txt
-      - name: Rozetked
-        run: curl -L -o rss/n14z3.xml -w "Rozetked,%{time_total}\n" "https://rsshub.rssforever.com/telegram/channel/rozetked?limit=20" >> rss/times_temp.txt
-      - name: Disgusting Men
-        run: curl -L -o rss/o25a7.xml -w "Disgusting Men,%{time_total}\n" "https://rsshub.rssforever.com/telegram/channel/disgustingmen?limit=20" >> rss/times_temp.txt
-      - name: Solek.exe
-        run: curl -L -o rss/p36b1.xml -w "Solek.exe,%{time_total}\n" "https://rsshub.rssforever.com/telegram/channel/solek_yt?limit=20" >> rss/times_temp.txt
-      - name: Nothing (R)ussia
-        run: curl -L -o rss/q47c8.xml -w "Nothing (R)ussia,%{time_total}\n" "https://rsshub.rssforever.com/telegram/channel/Nothing_Russia?limit=20" >> rss/times_temp.txt
-
-      # --- Остальное (limit=30) ---
-      - name: Канал Кулича
-        run: curl -L -o rss/r58d2.xml -w "Канал Кулича,%{time_total}\n" "https://rsshub.rssforever.com/telegram/channel/cooleach_timetravel?limit=30" >> rss/times_temp.txt
-      - name: 48 Колебяток
-        run: curl -L -o rss/s69e9.xml -w "48 Колебяток,%{time_total}\n" "https://rsshub.rssforever.com/telegram/channel/simbul1648?limit=30" >> rss/times_temp.txt
-      - name: Сказки Дядюшки Зомбака
-        run: curl -L -o rss/t70f4.xml -w "Сказки Дядюшки Зомбака,%{time_total}\n" "https://rsshub.rssforever.com/telegram/channel/zombaktales?limit=30" >> rss/times_temp.txt
-      - name: Общим планом
-        run: curl -L -o rss/u81g1.xml -w "Общим планом,%{time_total}\n" "https://rsshub.rssforever.com/telegram/channel/obschimplanom?limit=30" >> rss/times_temp.txt
-      - name: МЕЛОДИЯ
-        run: curl -L -o rss/v92h6.xml -w "МЕЛОДИЯ,%{time_total}\n" "https://rsshub.rssforever.com/telegram/channel/firmamelodiya?limit=30" >> rss/times_temp.txt
-      - name: Bladerunner Blues
-        run: curl -L -o rss/w13i3.xml -w "Bladerunner Blues,%{time_total}\n" "https://rsshub.rssforever.com/telegram/channel/bladerunnerblues?limit=30" >> rss/times_temp.txt
-      - name: amoledwatchfaces
-        run: curl -L -o rss/x24j8.xml -w "amoledwatchfaces,%{time_total}\n" "https://rsshub.rssforever.com/telegram/channel/amoledwatchfaces?limit=30" >> rss/times_temp.txt
-      - name: Старая Москва
-        run: curl -L -o rss/y35k2.xml -w "Старая Москва,%{time_total}\n" "https://rsshub.rssforever.com/telegram/channel/old_Moscow?limit=30" >> rss/times_temp.txt
-      - name: Тогда
-        run: curl -L -o rss/z46l7.xml -w "Тогда,%{time_total}\n" "https://rsshub.rssforever.com/telegram/channel/togdazine?limit=30" >> rss/times_temp.txt
-      - name: Старая Казань
-        run: curl -L -o rss/a57m3.xml -w "Старая Казань,%{time_total}\n" "https://rsshub.rssforever.com/telegram/channel/oldkazan?limit=30" >> rss/times_temp.txt
-      - name: Әйдә! Online
-        run: curl -L -o rss/b68n9.xml -w "Әйдә! Online,%{time_total}\n" "https://rsshub.rssforever.com/telegram/channel/eydetat?limit=30" >> rss/times_temp.txt
-      - name: Тут картины показываем
-        run: curl -L -o rss/c79p4.xml -w "Тут картины показываем,%{time_total}\n" "https://rsshub.rssforever.com/telegram/channel/artgallery?limit=30" >> rss/times_temp.txt
-      - name: 20 лет назад
-        run: curl -L -o rss/d80q1.xml -w "20 лет назад,%{time_total}\n" "https://rsshub.rssforever.com/telegram/channel/nazad90?limit=30" >> rss/times_temp.txt
-      - name: Луч
-        run: curl -L -o rss/e91r6.xml -w "Луч,%{time_total}\n" "https://rsshub.rssforever.com/telegram/channel/luchofficial?limit=30" >> rss/times_temp.txt
-
-      # --- Собрать финальный CSV ---
-      - name: Собрать CSV
-        run: |
-          echo "канал,время_сек" > rss/rss_times.csv
-          cat rss/times_temp.txt >> rss/rss_times.csv
-
-          # Выделить “тяжёлые” каналы >10 секунд
-          echo "канал,время_сек" > rss/rss_times_heavy.csv
-          awk -F',' '$2 > 10 {print $0}' rss/times_temp.txt >> rss/rss_times_heavy.csv
-
-          rm rss/times_temp.txt
-
-      # --- Загрузить артефакты ---
-      - name: Сохранить CSV как артефакт
-        uses: actions/upload-artifact@v4
-        with:
-          name: rss-times
-          path: |
-            rss/rss_times.csv
-            rss/rss_times_heavy.csv
+  </body>
+</opml>
