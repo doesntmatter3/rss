@@ -1,0 +1,13 @@
+name: Update RSS
+
+on:
+  schedule:
+    - cron: "*/15 * * * *"  # каждые 15 минут
+  workflow_dispatch:  # чтобы можно было запустить вручную
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Создать папку rss
+        run: mkdir -p rss
