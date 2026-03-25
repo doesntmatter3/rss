@@ -6,9 +6,6 @@ on:
       - 'rss.yml'
   workflow_dispatch:
 
-env:
-  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
-
 jobs:
   fast-channels:
     name: Fast Channels
@@ -24,7 +21,7 @@ jobs:
 
       - name: Measure fast channels
         run: |
-          echo "Channel,Limit" > rss_times.csv
+          echo "Channel,Time" > rss_times.csv
           channels=(
             "nplusone|20"
             "dtfbest|20"
@@ -41,7 +38,7 @@ jobs:
             end=$(date +%s.%N)
             elapsed=$(echo "$end - $start" | bc)
             if [[ "$elapsed" != "" && "$elapsed" != "0" ]]; then
-              echo "${name},$limit" >> rss_times.csv
+              echo "${name},${elapsed}" >> rss_times.csv
             fi
           done
 
@@ -66,7 +63,7 @@ jobs:
 
       - name: Measure heavy channels
         run: |
-          echo "Channel,Limit" > rss_times_heavy.csv
+          echo "Channel,Time" > rss_times_heavy.csv
           channels=(
             "novosti_efir|10"
             "tass_agency|10"
@@ -100,7 +97,7 @@ jobs:
             end=$(date +%s.%N)
             elapsed=$(echo "$end - $start" | bc)
             if [[ "$elapsed" != "" && "$elapsed" != "0" ]]; then
-              echo "${name},$limit" >> rss_times_heavy.csv
+              echo "${name},${elapsed}" >> rss_times_heavy.csv
             fi
           done
 
@@ -112,28 +109,43 @@ jobs:
 
       - name: Generate RSS OPML
         run: |
-          # объединяем fast и heavy CSV
-          cat rss_times.csv rss_times_heavy.csv | tail -n +2 > combined.csv
-          
-          # создаём OPML
-          {
-            echo '<?xml version="1.0" encoding="UTF-8"?>'
-            echo '<opml version="2.0">'
-            echo '<head><title>Telegram RSS - Auto Generated</title></head>'
-            echo '<body>'
-            while IFS=',' read -r channel limit; do
-              if [[ "$channel" != "TIMEOUT" ]]; then
-                echo "  <outline text=\"$channel\" xmlUrl=\"https://rsshub.rssforever.com/telegram/channel/$channel?limit=$limit\"/>"
-              fi
-            done < combined.csv
-            echo '</body>'
-            echo '</opml>'
-          } > rss.opml
+          #!/bin/bash
+          echo '<?xml version="1.0" encoding="UTF-8"?>' > rss.opml
+          echo '<opml version="2.0">' >> rss.opml
+          echo '  <head><title>Telegram RSS - Auto Generated</title></head>' >> rss.opml
+          echo '  <body>' >> rss.opml
+
+          # Новости
+          echo '    <outline text="Новости" title="Новости">' >> rss.opml
+          for ch in "novosti_efir|10" "tass_agency|10" "ulpressa|15" "russicaRU|10" "ejdailyru|15" "banksta|15" "rusbri|15" "brieflyru|10" "emet73|10" "uet73|10"; do
+            IFS="|" read -r name limit <<< "$ch"
+            echo "      <outline text=\"$name\" xmlUrl=\"https://rsshub.rssforever.com/telegram/channel/$name?limit=$limit\"/>" >> rss.opml
+          done
+          echo '    </outline>' >> rss.opml
+
+          # Тех и медиа
+          echo '    <outline text="Тех и медиа" title="Тех и медиа">' >> rss.opml
+          for ch in "nplusone|20" "dtfbest|20" "biggeekru|20" "rozetked|20" "disgustingmen|20" "solek_yt|20" "Nothing_Russia|20"; do
+            IFS="|" read -r name limit <<< "$ch"
+            echo "      <outline text=\"$name\" xmlUrl=\"https://rsshub.rssforever.com/telegram/channel/$name?limit=$limit\"/>" >> rss.opml
+          done
+          echo '    </outline>' >> rss.opml
+
+          # Остальное
+          echo '    <outline text="Остальное" title="Остальное">' >> rss.opml
+          for ch in "cooleach_timetravel|10" "simbul1648|10" "zombaktales|10" "obschimplanom|10" "firmamelodiya|10" "bladerunnerblues|10" "amoledwatchfaces|10" "old_Moscow|10" "togdazine|10" "oldkazan|10" "eydetat|10" "artgallery|10" "nazad90|10" "luchofficial|10"; do
+            IFS="|" read -r name limit <<< "$ch"
+            echo "      <outline text=\"$name\" xmlUrl=\"https://rsshub.rssforever.com/telegram/channel/$name?limit=$limit\"/>" >> rss.opml
+          done
+          echo '    </outline>' >> rss.opml
+
+          echo '  </body>' >> rss.opml
+          echo '</opml>' >> rss.opml
 
       - name: Commit OPML
         run: |
           git config user.name "github-actions"
           git config user.email "actions@github.com"
           git add rss.opml
-          git commit -m "Update rss.opml" || echo "No changes to commit"
+          git commit -m "Update rss.opml" || echo "Nothing to commit"
           git push || echo "Push failed"
