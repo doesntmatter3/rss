@@ -119,6 +119,7 @@ jobs:
     <title>Telegram RSS - Auto Generated</title>
   </head>
   <body>
+    <!-- Новости -->
     <outline text="Новости" title="Новости">
       <outline text="Прямой Эфир" xmlUrl="https://rsshub.rssforever.com/telegram/channel/novosti_efir?limit=10"/>
       <outline text="ТАСС" xmlUrl="https://rsshub.rssforever.com/telegram/channel/tass_agency?limit=10"/>
@@ -131,6 +132,8 @@ jobs:
       <outline text="Өмет" xmlUrl="https://rsshub.rssforever.com/telegram/channel/emet73?limit=10"/>
       <outline text="Трамвай Ульяновск" xmlUrl="https://rsshub.rssforever.com/telegram/channel/uet73?limit=10"/>
     </outline>
+
+    <!-- Тех и медиа -->
     <outline text="Тех и медиа" title="Тех и медиа">
       <outline text="N + 1" xmlUrl="https://rsshub.rssforever.com/telegram/channel/nplusone?limit=20"/>
       <outline text="DTF" xmlUrl="https://rsshub.rssforever.com/telegram/channel/dtfbest?limit=20"/>
@@ -140,6 +143,8 @@ jobs:
       <outline text="Solek.exe" xmlUrl="https://rsshub.rssforever.com/telegram/channel/solek_yt?limit=20"/>
       <outline text="Nothing (R)ussia" xmlUrl="https://rsshub.rssforever.com/telegram/channel/Nothing_Russia?limit=20"/>
     </outline>
+
+    <!-- Остальное -->
     <outline text="Остальное" title="Остальное">
       <outline text="Канал Кулича" xmlUrl="https://rsshub.rssforever.com/telegram/channel/cooleach_timetravel?limit=10"/>
       <outline text="48 Колебяток" xmlUrl="https://rsshub.rssforever.com/telegram/channel/simbul1648?limit=10"/>
@@ -165,5 +170,5 @@ EOF
           git config user.name "github-actions"
           git config user.email "actions@github.com"
           git add rss.opml
-          git commit -m "Update rss.opml" || echo "Nothing to commit"
-          git push
+          git commit -m "Update rss.opml" || echo "No changes to commit"
+          git push || echo "Push failed"
