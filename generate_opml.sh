@@ -1,70 +1,4 @@
 #!/bin/bash
-set -e
-
-# --- FAST CHANNELS ---
-fast_channels=(
-  "nplusone|20"
-  "dtfbest|20"
-  "biggeekru|20"
-  "rozetked|20"
-  "disgustingmen|20"
-  "solek_yt|20"
-  "Nothing_Russia|20"
-)
-
-echo "Channel,Time" > rss_times.csv
-for ch in "${fast_channels[@]}"; do
-  IFS="|" read -r name limit <<< "$ch"
-  start=$(date +%s.%N)
-  curl -s -m $((limit + 10)) "https://rsshub.rssforever.com/telegram/channel/$name?limit=$limit" > /dev/null || echo "${name},TIMEOUT" >> rss_times.csv
-  end=$(date +%s.%N)
-  elapsed=$(echo "$end - $start" | bc)
-  if [[ "$elapsed" != "" && "$elapsed" != "0" ]]; then
-    echo "${name},${elapsed}" >> rss_times.csv
-  fi
-done
-
-# --- HEAVY CHANNELS ---
-heavy_channels=(
-  "novosti_efir|10"
-  "tass_agency|10"
-  "ulpressa|15"
-  "russicaRU|10"
-  "ejdailyru|15"
-  "banksta|15"
-  "rusbri|15"
-  "brieflyru|10"
-  "emet73|10"
-  "uet73|10"
-  "cooleach_timetravel|10"
-  "simbul1648|10"
-  "zombaktales|10"
-  "obschimplanom|10"
-  "firmamelodiya|10"
-  "bladerunnerblues|10"
-  "amoledwatchfaces|10"
-  "old_Moscow|10"
-  "togdazine|10"
-  "oldkazan|10"
-  "eydetat|10"
-  "artgallery|10"
-  "nazad90|10"
-  "luchofficial|10"
-)
-
-echo "Channel,Time" > rss_times_heavy.csv
-for ch in "${heavy_channels[@]}"; do
-  IFS="|" read -r name limit <<< "$ch"
-  start=$(date +%s.%N)
-  curl -s -m $((limit + 10)) "https://rsshub.rssforever.com/telegram/channel/$name?limit=$limit" > /dev/null || echo "${name},TIMEOUT" >> rss_times_heavy.csv
-  end=$(date +%s.%N)
-  elapsed=$(echo "$end - $start" | bc)
-  if [[ "$elapsed" != "" && "$elapsed" != "0" ]]; then
-    echo "${name},${elapsed}" >> rss_times_heavy.csv
-  fi
-done
-
-# --- GENERATE OPML ---
 cat > rss.opml << 'EOF'
 <?xml version="1.0" encoding="UTF-8"?>
 <opml version="2.0">
@@ -112,5 +46,3 @@ cat > rss.opml << 'EOF'
   </body>
 </opml>
 EOF
-
-echo "CSV and OPML generated successfully"
